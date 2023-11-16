@@ -18,7 +18,7 @@ play.addEventListener('click', function generaCelle() {
 
         celleEffetto.forEach(cella => {
           cella.addEventListener('click', function() {
-            console.log('Hai cliccato su un elemento con la classe "cella"');
+            console.log(cella.textContent);
 
             if ('click') {
                 cella.style.backgroundColor= "#007fff";
