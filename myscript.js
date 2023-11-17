@@ -1,12 +1,17 @@
-'use strict'
+'use strict';
 
 let play = document.getElementById('playButton');
 let clickedOnce = false;
 let grigliaDiv = document.querySelector('.griglia');
 let reset = document.getElementById('resetButton');
 
+reset.addEventListener('click', function resetGriglia() {
+    while (grigliaDiv.firstChild) {
+        grigliaDiv.removeChild(grigliaDiv.firstChild);
+    }
+    clickedOnce = false;
+});
 
-reset.addEventListener('click', reset);
 play.addEventListener('click', function generaCelle() {
     if (!clickedOnce) {
         for (let i = 0; i < 100; i++) {
@@ -18,10 +23,8 @@ play.addEventListener('click', function generaCelle() {
 
         let celle = document.querySelectorAll('.cella');
 
-        for (let i = 0; i < 16; i++) {
-            celle[i].classList.remove('cella');
-            celle[i].classList.add('cellarossa');
-        }
+        let bombe = 16;
+        distribuisciBombeCasuali(celle, bombe);
 
         clickedOnce = true;
 
@@ -29,29 +32,31 @@ play.addEventListener('click', function generaCelle() {
 
         celleEffetto.forEach(cella => {
             cella.addEventListener('click', function () {
-                console.log(cella.textContent);
-
                 if (cella.classList.contains('cella')) {
                     cella.style.backgroundColor = "#007fff";
                 } else if (cella.classList.contains('cellarossa')) {
                     cella.style.backgroundColor = "#FF0000";
+                    grigliaDiv.innerHTML = "<h2>Hai perso!</h2>";
+                    clickedOnce = false;
                 }
             });
         });
 
-    } else {
-        while (grigliaDiv.firstChild) {
-            grigliaDiv.removeChild(grigliaDiv.firstChild);
-        }
-        clickedOnce = false;
     }
 });
 
+function distribuisciBombeCasuali(celle, numBombe) {
+    const celleArray = Array.from(celle);
+    const bombePosizionate = new Set();
 
-
-
-
-
-
+    while (bombePosizionate.size < numBombe) {
+        const randomIndex = Math.floor(Math.random() * celleArray.length);
+        if (!bombePosizionate.has(randomIndex)) {
+            celleArray[randomIndex].classList.remove('cella');
+            celleArray[randomIndex].classList.add('cellarossa');
+            bombePosizionate.add(randomIndex);
+        }
+    }
+}
 
 
