@@ -4,12 +4,14 @@ let play = document.getElementById('playButton');
 let clickedOnce = false;
 let grigliaDiv = document.querySelector('.griglia');
 let reset = document.getElementById('resetButton');
+let clickCount = 0;
 
 reset.addEventListener('click', function resetGriglia() {
     while (grigliaDiv.firstChild) {
         grigliaDiv.removeChild(grigliaDiv.firstChild);
     }
     clickedOnce = false;
+    clickCount = 0;
 });
 
 play.addEventListener('click', function generaCelle() {
@@ -32,11 +34,16 @@ play.addEventListener('click', function generaCelle() {
 
         celleEffetto.forEach(cella => {
             cella.addEventListener('click', function () {
+                if (!clickedOnce) return;
+                
+                clickCount++;
+
                 if (cella.classList.contains('cella')) {
                     cella.style.backgroundColor = "#007fff";
                 } else if (cella.classList.contains('cellarossa')) {
                     cella.style.backgroundColor = "#FF0000";
-                    grigliaDiv.innerHTML = "<h2>Hai perso!</h2>";
+                    grigliaDiv.innerHTML = "<h2>Hai perso!-</h2>";
+                    grigliaDiv.insertAdjacentHTML('beforeend', `<h2>Clic totali: ${clickCount}</h2>`);
                     clickedOnce = false;
                 }
             });
@@ -58,5 +65,3 @@ function distribuisciBombeCasuali(celle, numBombe) {
         }
     }
 }
-
-
