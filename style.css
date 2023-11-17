@@ -70,7 +70,12 @@ main{
     border: .125rem solid; 
     padding: .625rem;
 }
-Questo stile sarà applicato a 
+
+.cellarossa {height: calc(100% / 10) ;
+    width: calc(100% / 10)  ;
+    border: .125rem solid; 
+    padding: .625rem;
+}
 
 footer {
     background-color: #ffffff;
