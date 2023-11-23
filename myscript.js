@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 document.addEventListener('DOMContentLoaded', function () {
     let play = document.getElementById('playButton');
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     break;
             }
 
+            const bombe = 16;
             const cellePerRiga = numCelle / numRighe;
 
             for (let i = 0; i < numCelle; i++) {
@@ -51,23 +52,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 grigliaDiv.appendChild(cella);
             }
 
-            let celle = document.querySelectorAll('.cella');
+            let celleBlu = document.querySelectorAll('.cella');
+            let celleBluCliccate = 0;
 
-            let bombe = 16;
-            distribuisciBombeCasuali(celle, bombe);
-
-            clickedOnce = true;
-
-            let celleEffetto = document.querySelectorAll('.cella, .cellarossa');
-
-            celleEffetto.forEach(cella => {
+            celleBlu.forEach(cella => {
                 cella.addEventListener('click', function () {
                     if (!clickedOnce) return;
-                    
+
                     clickCount++;
 
                     if (cella.classList.contains('cella')) {
                         cella.style.backgroundColor = "#007fff";
+                        celleBluCliccate++;
+
+                        if (celleBluCliccate === celleBlu.length - bombe) {
+                            grigliaDiv.innerHTML = "<h2>Hai vinto!</h2>";
+                            clickedOnce = false;
+                        }
                     } else if (cella.classList.contains('cellarossa')) {
                         cella.style.backgroundColor = "#FF0000";
                         grigliaDiv.innerHTML = "<h2>Hai perso!-</h2>";
@@ -76,6 +77,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
             });
+
+            distribuisciBombeCasuali(celleBlu, bombe);
+
+            clickedOnce = true;
         }
     });
 
